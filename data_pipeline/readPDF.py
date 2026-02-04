@@ -35,9 +35,11 @@ def extract_metadata(reader):
         'num_pages': len(reader.pages)
     }
 
-def process_document_bucket(): # MAIN FUNCTION
+def process_document_bucket():
     document_bucket_dir = Path("document_bucket")
-    metadata_file = "metadata.txt"
+    metadata_file = "raw_text/metadata.txt"
+    output_path = "raw_text/extracted_text.txt"
+    processed_count = 0
 
     for file in document_bucket_dir.iterdir():
         if file.is_file():
@@ -51,10 +53,9 @@ def process_document_bucket(): # MAIN FUNCTION
                     for key, value in metadata.items():
                         meta_out.write(f"{key}: {value}\n")
 
-            with open('extracted_text.txt', 'a', encoding='utf-8') as output_file:
-                output_file.write("\n\n----------------NEW DOCUMENT STARTS HERE: " + file.name + "-----------------------\n\n")
+            with open(output_path, 'a', encoding='utf-8') as output_file:
+                output_file.write(f"\nDOCUMENT: {file.name}\n")
                 output_file.write(cleaned_text)
 
-
-if __name__ == "__main__":
-    process_document_bucket()
+            processed_count += 1
+            print("Files Processed: ", processed_count)
