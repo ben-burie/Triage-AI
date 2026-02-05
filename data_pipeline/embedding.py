@@ -27,14 +27,16 @@ def chunk_embeddings(chunks):
     return embeddings
 
 def save_embeddings(embeddings, chunks):
+    directory = Path("vector_db")
+    directory.mkdir(parents=True, exist_ok=True)
     dimension = embeddings.shape[1]
 
     index = faiss.IndexFlatL2(dimension)
     index.add(embeddings)
 
-    faiss.write_index(index, "embeddings.index")
+    faiss.write_index(index, str(directory / "embeddings.index"))
 
-    with open("chunks.pk1", "wb") as f:
+    with open(str(directory / "chunks.pk1"), "wb") as f:
         pickle.dump(chunks, f)
 
     print(f"Saved {len(chunks)} embeddings")
@@ -47,17 +49,20 @@ def embed_and_save():
 
 def search(query, top_k):
     model = SentenceTransformer(MODEL)
+    directory = Path("vector_db")
+    directory.mkdir(parents=True, exist_ok=True)
 
     query_embedding = model.encode([query])
-    index = faiss.read_index("embeddings.index")
+    index = faiss.read_index(str(directory / "embeddings.index"))
 
-    with open("chunks.pk1", "rb") as f:
+    with open(str(directory / "chunks.pk1"), "rb") as f:
         chunks = pickle.load(f)
     
     distances, indicies = index.search(query_embedding, top_k)
 
     for i in indicies[0]:
-        print(chunks[i])
+        return chunks[i]
 
 if __name__ == "__main__":
-    search("Uw-Whitewater", 1)
+    chunks = search("Uw-Whitewater", 1)
+    print(chunks)

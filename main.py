@@ -1,6 +1,6 @@
 from data_pipeline.textChunking import chunk_documents
 from data_pipeline.readPDF import process_document_bucket
-from vector_embedding.embedding import embed_and_save
+from data_pipeline.embedding import embed_and_save
 
 INPUT_FILE = "raw_text/extracted_text.txt"
 OUTPUT_DIR = "chunks"
