@@ -1,5 +1,5 @@
 # Run the script:
-# python prepareTestPdfs_with_json.py tickets.txt ./document_bucket
+# python prepareTickets.py tickets.txt ./../document_bucket
 
 import re
 import json

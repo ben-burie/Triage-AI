@@ -47,13 +47,13 @@ function handleSubmit() {
         };
         displayResponse(responseData);
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Submit Query';
+        submitBtn.textContent = 'Submit';
     })
     .catch(error => {
         console.error('Error:', error);
         responseContent.innerHTML = '<div style="color: #dc3545;">An error occurred while processing your request. Please try again.</div>';
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Submit Query';
+        submitBtn.textContent = 'Submit';
     });
 }
 
